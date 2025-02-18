@@ -25,7 +25,6 @@ export const signup = async (req,res)=>{
         const newUser = new User({
             username,
             email, 
-            // crat,
             password:hashPassword
         })
 
