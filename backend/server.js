@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser"
 
 import authRoutes from "./auth.route.js"
 import { connectDB } from "./connectDB.js";
