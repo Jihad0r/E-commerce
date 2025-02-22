@@ -1,5 +1,6 @@
 import { BiLogOut } from "react-icons/bi";
 import { FiShoppingCart } from "react-icons/fi";
+import { GoHome } from "react-icons/go";
 import { useState, useEffect } from "react";
 import { Cart } from "./Cart";
 
@@ -11,9 +12,9 @@ export const Nav = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY) {
-        setShowNavbar(false); // Hide on scroll down
+        setShowNavbar(false);
       } else {
-        setShowNavbar(true); // Show on scroll up
+        setShowNavbar(true);
       }
       setLastScrollY(window.scrollY);
     };
@@ -42,7 +43,7 @@ export const Nav = () => {
 	};
   return(<><div className={`p-4 z-10 flex items-center justify-between bg-purple-400 fixed top-0 left-0 w-full text-white  transition-transform duration-300 ${
 	showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
-    Navbar
+    <Link to={`/`}><GoHome /></Link>
     <div className=" flex"><BiLogOut className="mr-5" onClick={logout}/>
 	<FiShoppingCart onClick={() => setShowCart(!showCart)} />
 	</div>
