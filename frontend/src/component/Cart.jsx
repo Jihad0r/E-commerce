@@ -74,7 +74,7 @@ export const Cart = ({ showCart, setShowCart }) => {
     }, [fetchCart,deleteProduct]);
     return (
         <div 
-        className={`w-1/3 fixed top-14 bottom-0 right-0 p-4 backdrop-blur-md bg-purple-300
+        className={`w-full md:w-1/3 fixed top-14 bottom-0 right-0 p-4 backdrop-blur-md bg-purple-300
             transition-transform duration-700 shadow-lg z-50 
             ${showCart ? "translate-x-0" : "translate-x-full"}`}
     >
