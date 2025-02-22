@@ -3,6 +3,8 @@ import { Home } from './component/Home'
 import { Nav } from './component/Nav'
 import { Login, Signup } from './component/auth'
 import { useEffect, useState } from 'react'
+import {Category} from './component/Category'
+import {Product} from './component/Product.'
 function App() {
   const [isAuthorized , setIsAuthorized] = useState(false)
   const {pathname} = useLocation()
@@ -32,7 +34,10 @@ function App() {
       <Route path="/login" element={isAuthorized ? <Navigate to="/"/> :<Login/> }/>
       <Route path="/signup" element={isAuthorized ? <Navigate to="/"/> :<Signup/>}/>
       <Route path="/" element={isAuthorized ? <Home/>:<Navigate to="/login"/> }/>
-    </Routes> 
+      <Route path="/" element={isAuthorized ? <Home/>:<Navigate to="/login"/> }/>
+      <Route path="/Category/:name/:productName" element={isAuthorized ? <Product/>:<Navigate to="/login"/> }/>
+      <Route path="/Category/:name" element={isAuthorized ? <Category/>:<Navigate to="/login"/> }/>
+    </Routes>
   </>)
 };
 

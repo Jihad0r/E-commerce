@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser"
 
 import authRoutes from "./auth.route.js"
+import cartRoutes from "./cart.route.js"
 import { connectDB } from "./connectDB.js";
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 
 app.use("/api/auth",authRoutes)
+app.use("/api/cart",cartRoutes)
 if (process.env.NODE_ENV === 'production') {
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 

@@ -1,18 +1,26 @@
 import mongoose from "mongoose";
 
-const cartSchema = new mongoose.Schema(
+const produtSchema = new mongoose.Schema(
     {
-        name: {
+        title: {
             type: String,
             required: true,
         },
         price: {
-            type: String,
+            type: Number,
             required: true,
         },
         amount: {
+            type: Number,
+            required: true,
+        },
+        img:{
             type: String,
             required: true,
+        },
+        action:{
+            type: String,
+			enum: ["increase", "decrease"],
         },
     },
     { timestamps: true }
@@ -33,7 +41,7 @@ export const userSchems = new mongoose.Schema({
         required:true,
         unique:true
     },
-    crat:[cartSchema]
+    cart:[produtSchema]
 },
 { timestamps: true })
 
