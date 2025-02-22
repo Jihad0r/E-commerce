@@ -2,6 +2,7 @@ import { BiLogOut } from "react-icons/bi";
 import { FiShoppingCart } from "react-icons/fi";
 import { GoHome } from "react-icons/go";
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom'
 import { Cart } from "./Cart";
 
 export const Nav = () => {
