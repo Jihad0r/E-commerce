@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useCartStore } from "./useCartStore";
+import { useGetData } from "./useGetData";
+import { ScrollUpButton } from "./ScrollUpButton";
 
 
 export const Home = () => {
   const [categories, setCategories] = useState([]);
-  const { addToCart } = useCartStore(); 
-
+  const { addToCart } = useCartStore();
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -15,7 +17,7 @@ export const Home = () => {
 
         const allProducts = await Promise.all(
           categoriesData.map(async (category) => {
-            const prodRes = await fetch(`https://dummyjson.com/products/category/${category.slug}?limit=3`);
+            const prodRes = await fetch(`https://dummyjson.com/products/category/${category.slug}?limit=4`);
             const productsData = await prodRes.json();
             return { category, products: productsData.products };
           })
@@ -31,18 +33,19 @@ export const Home = () => {
   }, []);
 
   return (
-    <div className="mt-14 p-10">
+    <div className="mt-30 p-10">
       {categories.map((cat, index) => (
-        <div key={index} className="p-2 bg-gray-300 w-full mb-14  rounded-xl">
-          <Link to={`/Category/${cat.category.slug}`}>
-            <h2 className="text-3xl mb-10 font-bold">{cat.category.name}</h2>
+        <div key={index} className="bg-white w-full mb-14  rounded-xl">
+          <Link to={`/Category/${cat.category.slug}`} className=" rounded-t-xl mb-10 p-2 flex justify-between cursor-pointer bg-gray-300">
+            <h2 className="text-md md:text-xl font-bold">{cat.category.name}</h2>
+           <div className="flex items-center"><p>See All</p><IoIosArrowForward/></div> 
           </Link>
-          <div className="products grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 bg-gray-300 w-full items-stretch rounded-xl">
+          <div className="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  w-full items-stretch  rounded-b-xl p-4">
             {cat.products.map((product) => (<>
               
               <div 
                 key={product.id || product.title} 
-                className="bg-white overflow-hidden p-2 rounded-xl relative flex flex-col h-full shadow-md"
+                className="bg-white overflow-hidden p-2 rounded-xl relative flex flex-col h-full transition-all hover:scale-101 shadow-2xl"
               ><Link
               to={`/Category/${cat.category.slug}/${product.title}`}>
                   <img
@@ -50,7 +53,7 @@ export const Home = () => {
                     src={product.thumbnail}
                     alt={product.title}
                   />
-                  <h2 className="text-xl font-bold text-gray-800">
+                  <h2 className="text-sm md:text-md font-bold text-gray-800">
                     {product.title}
                   </h2></Link>
                   <p className="text-gray-600 mt-2 mb-4 truncate whitespace-nowrap overflow-hidden text-ellipsis h-6">
@@ -74,15 +77,10 @@ export const Home = () => {
               </div>
         </>
             ))}
-            <Link
-              to={`/Category/${cat.category.slug}`} 
-              className="flex items-center justify-center bg-white  rounded-xl text-2xl font-semibold hover:bg-gray-100 transition h-full min-h-[350px]"
-            >
-              More...
-            </Link>
           </div>
         </div>
       ))}
+      <ScrollUpButton/>
     </div>
   );
 };

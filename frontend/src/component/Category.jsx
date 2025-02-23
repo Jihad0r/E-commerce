@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom'
 import { useCartStore } from './useCartStore';
+import { ScrollUpButton } from './ScrollUpButton';
 
 export  const Category = () => {
     const [products, setProducts] = useState([]);
     const {name} = useParams()
-    const { addToCart } = useCartStore(); 
+    const { addToCart } = useCartStore();
     useEffect(()=>{
     const getProducts = async () => {
         try {
@@ -21,12 +22,12 @@ export  const Category = () => {
   return (
     <div className='p-4  w-full mt-14  rounded-xl'>
     <h1 className='capitalize text-3xl mb-5 font-bold'>{name}</h1>
-    <div className="products grid grid-cols-1  md:grid-cols-2  lg:grid-cols-4 gap-4">
+    <div className="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((product)=>(<>
              
              <div 
                key={product.id || product.title} 
-               className="bg-gray-200 overflow-hidden p-2 rounded-xl relative flex flex-col h-full shadow-md"
+               className="bg-white overflow-hidden p-2 rounded-xl relative flex flex-col h-full shadow-md"
              >
      <Link
              to={`/Category/${name}/${product.title}`}><img
@@ -48,6 +49,7 @@ export  const Category = () => {
      </button>
    </div></>
         ))}
-    </div></div>
+    </div>
+          <ScrollUpButton/></div>
   )
 }

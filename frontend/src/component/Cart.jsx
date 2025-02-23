@@ -8,7 +8,11 @@ export const Cart = ({ showCart, setShowCart }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    
+    if (showCart && innerWidth <= 768) {
+        document.body.classList.add("overflow-hidden");
+      } else {
+        document.body.classList.remove("overflow-hidden"); 
+      }
 
     const fetchCart = async () => {
         try {
@@ -74,7 +78,7 @@ export const Cart = ({ showCart, setShowCart }) => {
     }, [fetchCart,deleteProduct]);
     return (
         <div 
-        className={`w-full md:w-1/3 fixed top-14 bottom-0 right-0 p-4 backdrop-blur-md bg-purple-300
+        className={`w-full md:w-1/3 fixed top-[8%] md:top-[11%] bottom-0 right-0 p-4 backdrop-blur-md bg-purple-300
             transition-transform duration-700 shadow-lg z-50 
             ${showCart ? "translate-x-0" : "translate-x-full"}`}
     >
@@ -132,7 +136,7 @@ export const Cart = ({ showCart, setShowCart }) => {
             <button 
             onClick={clearCart}
             className="w-full mt-4 p-2 text-white bg-blue-500 rounded font-bold">
-            Pay
+            Pay Now
         </button>
             <button 
                 onClick={clearCart}
