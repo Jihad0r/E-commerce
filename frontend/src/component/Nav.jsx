@@ -120,7 +120,7 @@ export const Nav = ({setIsAuthorized}) => {
             className="px-4 block md:hidden text-white hover:text-gray-900"
             onClick={() => setShowInput(!showinput)}
           >
-            <IoIosSearch size={24} />
+            <IoIosSearch size={24} /> 
           </button>
           <BiLogOut 
             className="cursor-pointer text-2xl" 
@@ -137,8 +137,8 @@ export const Nav = ({setIsAuthorized}) => {
 
       {/* Mobile Search */}
       <div
-        className={`absolute top-15 left-0 w-full block md:hidden z-10 bg-purple-400 transition-transform duration-300 
-          ${showinput && showNavbar ? "translate-y-0" : "-translate-y-full"}
+        className={`fixed top-15 left-0 w-full block md:hidden z-10 bg-purple-400 transition-transform duration-300 
+          ${showinput && showNavbar ? "block translate-y-0" : "hidden -translate-y-full"}
         `}
       >
         <div className="p-4 relative">
