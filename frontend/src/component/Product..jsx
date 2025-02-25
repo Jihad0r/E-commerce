@@ -25,7 +25,6 @@ export const Product = () => {
     }, [name]);
   return (
     <>
-    <h1 className='capitalize'>{name}</h1>
     <div className="product mt-10 mx-auto ">
         {product.map((product)=>(
           <div className="p-6 flex flex-col md:flex-row gap-6 rounded-xl bg-white shadow-lg hover:shadow-xl transition-shadow">
@@ -87,7 +86,7 @@ export const Product = () => {
                 ${product.stock > 0 
                   ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg'
                   : 'bg-gray-300 text-gray-600 cursor-not-allowed'}
-                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2  cursor-pointer`}
               onClick={() => addToCart(product)}
               disabled={product.stock === 0}
             >

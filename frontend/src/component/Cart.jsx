@@ -3,10 +3,16 @@ import { useState, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai"; 
 import { AiOutlinePlus } from "react-icons/ai"; 
 import { AiOutlineMinus } from "react-icons/ai";
-export const Cart = ({ showCart, setShowCart }) => {
+export const Cart = ({ showCart, setShowCart,cartRef}) => {
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const [activeButton, setActiveButton] = useState({ title: "", action: "" ,isclicked:false});
+
+    const handleClick = (title, action,isclicked) => {
+        setActiveButton({ title, action,isclicked:true });
+        setTimeout(() => setActiveButton({ title: "", action: "" ,isclicked:false}), 200);
+    };
+      
 
     if (showCart && innerWidth <= 768) {
         document.body.classList.add("overflow-hidden");
@@ -22,7 +28,6 @@ export const Cart = ({ showCart, setShowCart }) => {
             setCart(data|| []);
         } catch (err) {
             console.error(err);
-            setError("Failed to load cart");
         } finally {
             setLoading(false);
         }
@@ -40,7 +45,6 @@ export const Cart = ({ showCart, setShowCart }) => {
             setCart(data.cart || []);
         } catch (err) {
             console.error(err);
-            setError("Failed to update cart");
         }
     };
     const deleteProduct = async (title) => {
@@ -56,7 +60,6 @@ export const Cart = ({ showCart, setShowCart }) => {
             setCart(data || []);
         } catch (err) {
             console.error(err);
-            setError("Failed to delete product");
         }
     };
 
@@ -67,7 +70,6 @@ export const Cart = ({ showCart, setShowCart }) => {
             setCart([]); 
         } catch (err) {
             console.error(err);
-            setError("Failed to clear cart");
         }
     };
     const totalPrice = cart.reduce((acc, item) => acc + item.price * item.amount, 0);
@@ -77,50 +79,61 @@ export const Cart = ({ showCart, setShowCart }) => {
         fetchCart();
     }, [fetchCart,deleteProduct]);
     return (
-        <div 
+    <div 
         className={`w-full md:w-1/3 fixed top-[8%] md:top-[11%] bottom-0 right-0 p-4 backdrop-blur-md bg-purple-300
             transition-transform duration-700 shadow-lg z-50 
-            ${showCart ? "translate-x-0" : "translate-x-full"}`}
+            ${showCart ? "translate-x-0" : "translate-x-full"}`} ref={cartRef}
     >
         <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold">Shopping Cart</h2>
             <button 
                 onClick={() => setShowCart(false)}
-                className=" text-lg p-1 rounded-full"
+                className=" text-lg p-1 rounded-full cursor-pointer"
             >
                 <AiOutlineClose/>
             </button>
         </div>
         <div className="overflow-auto h-90">
         {loading && <p className="text-white">Loading cart...</p>}
-        {error && <p className="text-red-300">{error}</p>}
         {cart.length === 0 && !loading && <p className="">Your cart is empty.</p>}
 
         {cart.map((item) => (
-            <div key={item.title} className="flex justify-between items-center border-b py-2 relative">
+            <div key={item.title} className="flex  justify-between items-center border-b py-2 relative">
+                <div className="flex items-center">
                 <img src={item.img} className="w-20 h-20" alt={item.title}/>
                 <div><h2>{item.title}</h2>
                 <span className="font-medium  mr-4">${item.price}</span>
                 <span className="font-medium ">${parseInt(item.price * item.amount)}</span>
-                </div>
+                </div></div>
                 <div className="flex items-center gap-2 mr-10">
-                    <button 
-                        onClick={() => updateCartAmount(item.title, "decrease")} 
-                        className=" rounded-full border-1"
-                    >
+               <button
+                onClick={() => {updateCartAmount(item.title, "decrease");   handleClick(item.title, "decrease");
+                }}
+                className={`rounded-full border-1 ${
+                  activeButton.title === item.title && activeButton.action === "decrease"&&activeButton.isclicked
+                    ? "text-blue-400"
+                    : ""
+                } cursor-pointer`}
+              >
                         <AiOutlineMinus/>
-                    </button>
+                </button>
                     <span className=" w-4">{item.amount}</span>
-                    <button 
-                        onClick={() => updateCartAmount(item.title, "increase")} 
-                        className=" rounded-full border-1"
-                    >
-                        <AiOutlinePlus/>
-                    </button>
+                <button
+                onClick={() => {updateCartAmount(item.title, "increase");   handleClick(item.title, "increase");
+                }}
+                className={`rounded-full border-1 ${
+                  activeButton.title === item.title && activeButton.action === "increase"&&activeButton.isclicked
+                    ? "text-blue-400"
+                    : ""
+                } cursor-pointer`}
+              >
+                <AiOutlinePlus />
+                </button>
                 </div>
+
                  <button 
                         onClick={() => deleteProduct(item.title)} 
-                        className="px-2 py-1  rounded absolute top-0 right-0"
+                        className="px-2 py-1  rounded absolute top-0 right-0 cursor-pointer"
                     >
                          <AiOutlineClose/>
                     </button>
@@ -135,12 +148,12 @@ export const Cart = ({ showCart, setShowCart }) => {
             <>
             <button 
             onClick={clearCart}
-            className="w-full mt-4 p-2 text-white bg-blue-500 rounded font-bold">
+            className="w-full mt-4 p-2 text-white bg-blue-500 rounded font-bold cursor-pointer">
             Pay Now
         </button>
             <button 
                 onClick={clearCart}
-                className="w-full mt-4 p-2 text-white bg-red-500 rounded font-bold"
+                className="w-full mt-4 p-2 text-white bg-red-500 rounded font-bold cursor-pointer"
             >
                 Clear Cart
             </button></>
@@ -149,5 +162,3 @@ export const Cart = ({ showCart, setShowCart }) => {
     </div>
     );
 };
-
-

@@ -68,12 +68,16 @@ export const Home = () => {
                     </span>
                   </div>
                   <button
-                    className="p-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition mt-auto disabled:bg-gray-400"
-                    onClick={() => addToCart(product)}
-                    disabled={product.stock === 0}
-                  >
-                    {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
-                  </button>
+              className={`w-full md:w-auto px-6 py-3 mt-4 text-lg font-semibold rounded-xl transition-colors
+                ${product.stock > 0 
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg'
+                  : 'bg-gray-300 text-gray-600 cursor-not-allowed'}
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2  cursor-pointer`}
+              onClick={() => addToCart(product)}
+              disabled={product.stock === 0}
+            >
+              {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
+            </button>
               </div>
         </>
             ))}
