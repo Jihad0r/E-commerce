@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { Cart } from "./Cart";
 
-export const Nav = () => {
+export const Nav = ({setIsAuthorized}) => {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showCart, setShowCart] = useState(false);
@@ -44,17 +44,11 @@ export const Nav = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // useEffect(() => {
-  //   if (!showNavbar) {
-  //     setShowInput(false);
-  //   }
-  // }, [showNavbar]);
-
   const logout = async () => {
     try {
       const res = await fetch("/api/auth/logout", { method: "POST" });
       if (!res.ok) throw new Error("Logout failed");
-      navigate("/");
+      setIsAuthorized(false)
     } catch (error) {
       console.error("Logout Error:", error.message);
     }

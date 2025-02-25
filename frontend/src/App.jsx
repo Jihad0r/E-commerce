@@ -29,10 +29,10 @@ function App() {
   authorized()
   },[])
   return (<>
-   {pathname !== "/login" && pathname !== "/signup"  && <Nav/>}
+   {pathname !== "/login" && pathname !== "/signup"  && <Nav setIsAuthorized={setIsAuthorized}/>}
     <Routes>
-      <Route path="/login" element={isAuthorized ? <Navigate to="/"/> :<Login/> }/>
-      <Route path="/signup" element={isAuthorized ? <Navigate to="/"/> :<Signup/>}/>
+      <Route path="/login" element={isAuthorized ? <Navigate to="/"/> :<Login setIsAuthorized={setIsAuthorized}/> }/>
+      <Route path="/signup" element={isAuthorized ? <Navigate to="/"/> :<Signup setIsAuthorized={setIsAuthorized}/>}/>
       <Route path="/" element={isAuthorized ? <Home/>:<Navigate to="/login"/> }/>
       <Route path="/" element={isAuthorized ? <Home/>:<Navigate to="/login"/> }/>
       <Route path="/Category/:name/:productName" element={isAuthorized ? <Product/>:<Navigate to="/login"/> }/>

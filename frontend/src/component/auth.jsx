@@ -2,7 +2,7 @@ import { useState } from "react";
 import img from "../img/138223722_10377291-removebg.png"
 
 import { Link } from "react-router-dom";
-export const Signup = () => {
+export const Signup = ({setIsAuthorized}) => {
 	const [formData, setFormData] = useState({
 		email: "",
 		username: "",
@@ -23,7 +23,7 @@ export const Signup = () => {
 			const data = await res.json();
 			if (!res.ok) throw new Error(data.error || "Something went wrong");
 
-			console.log( data);
+			setIsAuthorized(true)
 			return data;
 		} catch (error) {
 			console.error(error.message);
@@ -77,7 +77,7 @@ export const Signup = () => {
 	);
 };
 
-export const Login = () => {
+export const Login = ({setIsAuthorized}) => {
   const [formData, setFormData] = useState({
 		username: "",
 		password: "",
@@ -96,7 +96,7 @@ export const Login = () => {
 			const data = await res.json();
 			if (!res.ok) throw new Error(data.error || "Something went wrong");
 
-			console.log(data);
+			setIsAuthorized(true)
 			return data;
 		} catch (error) {
 			console.error(error.message);
