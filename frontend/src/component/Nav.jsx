@@ -15,22 +15,32 @@ export const Nav = ({setIsAuthorized}) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const dropdownRef = useRef(null);
   const cartRef= useRef(null);
+  const searchRef =  useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(e.target)
-        ||cartRef.current &&
+      ) {
+        setIsDropdownOpen(false);
+      }
+      if (
+        cartRef.current &&
         !cartRef.current.contains(e.target)
       ) {
-        setIsOpen(false);
         setIsCartOpen(false);
       }
+      if(searchRef.current &&
+        !searchRef.current.contains(e.target)){
+          setIsSearchOpen(false)
+        }
+      
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -56,6 +66,7 @@ export const Nav = ({setIsAuthorized}) => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY) {
         setShowNavbar(false);
+        setShowInput(false)
       } else {
         setShowNavbar(true);
       }
@@ -103,14 +114,14 @@ export const Nav = ({setIsAuthorized}) => {
         </Link>
 
         {/* Desktop Search */}
-        <div ref={dropdownRef} className="relative flex-1 max-w-xl hidden md:block mx-auto">
+        <div ref={searchRef} className="relative flex-1 max-w-xl hidden md:block mx-auto">
           <div className="flex items-center bg-white rounded-lg">
             <input
               type="text"
               name="search"
               value={input}
               onChange={handleChange}
-              onClick={()=>setIsOpen((prev) => !prev)}
+              onClick={()=>setIsSearchOpen((prev) => !prev)}
               placeholder="What are you looking for?"
               className="w-full px-4 py-2 text-gray-900 rounded-lg focus:outline-none"
             />
@@ -118,7 +129,7 @@ export const Nav = ({setIsAuthorized}) => {
               <IoIosSearch size={24} />
             </button>
           </div>
-          {isOpen&& <>
+          {isSearchOpen&& <>
           {filteredProducts.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto z-20">
               {filteredProducts.map(product => (
@@ -142,7 +153,7 @@ export const Nav = ({setIsAuthorized}) => {
         <div className="flex items-center gap-4">
           <button
             className="px-4 block md:hidden text-white hover:text-gray-900 cursor-pointer"
-            onClick={() => {setShowInput(!showinput);setIsOpen((prev) => !prev)}}
+            onClick={() => {setShowInput(!showinput);setIsDropdownOpen((prev) => !prev)}}
           >
             <IoIosSearch size={24} /> 
           </button>
@@ -153,6 +164,7 @@ export const Nav = ({setIsAuthorized}) => {
           />
           <FiShoppingCart
             className="cursor-pointer text-2xl"
+            cartRef={cartRef} 
             onClick={() =>{ setShowCart(!showCart);setIsCartOpen((prev) => !prev)}}
             title="Cart"
           />
@@ -160,7 +172,7 @@ export const Nav = ({setIsAuthorized}) => {
       </div>
 
       {/* Mobile Search */}
-     {isOpen&& <div
+     {isDropdownOpen&& <div
         className={`fixed top-15 left-0 w-full block md:hidden z-10 bg-purple-400 transition-transform duration-300 
           ${showinput && showNavbar ? "block translate-y-0" : "hidden -translate-y-full"}
           
@@ -199,7 +211,7 @@ export const Nav = ({setIsAuthorized}) => {
         </div>
       </div>}
 
-     {isCartOpen &&<Cart cartRef={cartRef}  showCart={showCart} setShowCart={setShowCart} />}
+     {isCartOpen && <Cart cartRef={cartRef}  showCart={showCart} setShowCart={setShowCart} />}
     </>
   );
 };

@@ -20,7 +20,7 @@ export  const Category = () => {
       getProducts()
     }, [name]);
   return (
-    <div className='p-4  w-full mt-14  rounded-xl'>
+    <div className='p-4  w-full mt-20  rounded-xl'>
     <h1 className='capitalize text-3xl mb-5 font-bold'>{name}</h1>
     <div className="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((product)=>(<>

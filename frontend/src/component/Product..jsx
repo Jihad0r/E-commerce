@@ -25,7 +25,7 @@ export const Product = () => {
     }, [name]);
   return (
     <>
-    <div className="product mt-10 mx-auto ">
+    <div className="product  mt-15 mx-auto ">
         {product.map((product)=>(
           <div className="p-6 flex flex-col md:flex-row gap-6 rounded-xl bg-white shadow-lg hover:shadow-xl transition-shadow">
           <div className="md:w-1/3 overflow-hidden rounded-xl">
